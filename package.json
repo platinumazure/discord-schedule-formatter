@@ -1,0 +1,23 @@
+{
+  "name": "@discord-schedule-formatter/discord-schedule-formatter",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Web service, Node API, and admin website for displaying a Discord guild's Scheduled Events outside of Discord",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "discord-events"
+  ],
+  "author": "platinumazure",
+  "license": "MIT",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
