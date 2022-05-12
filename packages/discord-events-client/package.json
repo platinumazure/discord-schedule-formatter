@@ -4,10 +4,13 @@
   "description": "Node API for retrieving Discord events from a guild",
   "main": "index.js",
   "devDependencies": {
+    "eslint": "^8.15.0",
     "mocha": "^9.2.2"
   },
   "scripts": {
-    "test": "mocha"
+    "lint": "eslint .",
+    "test": "npm run lint",
+    "unit-test": "mocha"
   },
   "keywords": [
     "discord",
