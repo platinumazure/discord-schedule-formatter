@@ -17,5 +17,8 @@
     "discord-events"
   ],
   "author": "platinumazure",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
 }
