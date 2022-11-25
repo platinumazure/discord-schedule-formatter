@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "description": "Web service, Node API, and admin website for displaying a Discord guild's Scheduled Events outside of Discord",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint",
+    "lint": "eslint .",
+    "prepare": "husky install"
   },
   "keywords": [
     "discord",
@@ -13,7 +15,8 @@
   "author": "platinumazure",
   "license": "MIT",
   "devDependencies": {
-    "cz-conventional-changelog": "^3.3.0"
+    "cz-conventional-changelog": "^3.3.0",
+    "husky": "^8.0.0"
   },
   "config": {
     "commitizen": {
