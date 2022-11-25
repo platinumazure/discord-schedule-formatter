@@ -19,6 +19,8 @@
   "author": "platinumazure",
   "license": "MIT",
   "dependencies": {
+    "@discordjs/rest": "^1.3.0",
+    "discord-api-types": "^0.37.20",
     "discord.js": "^13.6.0"
   }
 }
