@@ -4,11 +4,13 @@
   "description": "Node API for retrieving Discord events from a guild",
   "main": "index.js",
   "devDependencies": {
+    "dotenv": "^16.0.3",
     "eslint": "^8.15.0",
     "mocha": "^10.1.0"
   },
   "scripts": {
     "lint": "eslint .",
+    "start": "node --require dotenv/config src/app.js",
     "test": "npm run lint",
     "unit-test": "mocha"
   },
