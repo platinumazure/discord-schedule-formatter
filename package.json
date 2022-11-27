@@ -28,5 +28,8 @@
   "workspaces": [
     "packages\\discord-events-client"
   ],
-  "type": "module"
+  "type": "module",
+  "engines": {
+      "node": ">=18"
+  }
 }

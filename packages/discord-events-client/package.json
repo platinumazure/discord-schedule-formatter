@@ -6,6 +6,8 @@
   "devDependencies": {
     "dotenv": "^16.0.3",
     "eslint": "^8.15.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.1.0"
   },
   "scripts": {
@@ -21,6 +23,7 @@
   "author": "platinumazure",
   "license": "MIT",
   "dependencies": {
+    "discord-api-types": "^0.37.20",
     "discord.js": "^14.6.0",
     "sequelize": "^6.25.8",
     "sqlite3": "^5.1.2"

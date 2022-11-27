@@ -3,7 +3,11 @@ module.exports = {
         "node": true,
         "es2021": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended",
+        "plugin:import/recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
@@ -25,5 +29,8 @@ module.exports = {
             "error",
             "always"
         ]
+    },
+    "settings": {
+        "import/resolver": "node"
     }
 };
