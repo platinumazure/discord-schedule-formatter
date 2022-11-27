@@ -1,4 +1,4 @@
-import { Client } from "discord.js";
+import { Events, Client } from "discord.js";
 import { GatewayIntentBits } from "discord-api-types/v10";
 
 import { deleteEvent, deleteGuildEvents, insertEvent, updateEvent, upsertGuildEvents }
@@ -22,8 +22,8 @@ const client = new Client({
     intents: [GatewayIntentBits.GuildScheduledEvents, GatewayIntentBits.Guilds]
 });
 
-client.on("ready", async () => {
-    console.log(`Logged in as ${client.user.tag}!`);
+client.on(Events.ClientReady, async () => {
+    console.log(`Logged in as ${client.user.tag}`);
 
     client.guilds.fetch()
         .then(guilds => {
@@ -40,7 +40,7 @@ client.on("ready", async () => {
         .catch(err => console.log(`Could not retrieve guilds: ${err}`));
 });
 
-client.on("guildScheduledEventCreate", async guildEvent => {
+client.on(Events.GuildScheduledEventCreate, async guildEvent => {
     try {
         await insertEvent(guildEvent);
         console.log(`New event inserted: ${guildEvent.name} (${guildEvent.guild.name})`);
@@ -49,7 +49,7 @@ client.on("guildScheduledEventCreate", async guildEvent => {
     }
 });
 
-client.on("guildScheduledEventUpdate", async guildEvent => {
+client.on(Events.GuildScheduledEventUpdate, async guildEvent => {
     try {
         await updateEvent(guildEvent);
         console.log(`Event updated: ${guildEvent.name} (${guildEvent.guild.name})`);
@@ -58,7 +58,7 @@ client.on("guildScheduledEventUpdate", async guildEvent => {
     }
 });
 
-client.on("guildScheduledEventDelete", async guildEvent => {
+client.on(Events.GuildScheduledEventDelete, async guildEvent => {
     try {
         await deleteEvent(guildEvent);
         console.log(`Event deleted: ${guildEvent.name} (${guildEvent.guild.name})`);
@@ -67,7 +67,7 @@ client.on("guildScheduledEventDelete", async guildEvent => {
     }
 });
 
-client.on("guildCreate", async guild => {
+client.on(Events.GuildCreate, async guild => {
     // TODO: Extract common logic
     try {
         const resultsArray = await upsertGuildEvents(guild);
@@ -78,7 +78,7 @@ client.on("guildCreate", async guild => {
     }
 });
 
-client.on("guildDelete", async guild => {
+client.on(Events.GuildDelete, async guild => {
     try {
         const numEventsDeleted = await deleteGuildEvents(guild);
         console.log(`Guild deleted: ${guild.name} (${numEventsDeleted} events deleted)`);
