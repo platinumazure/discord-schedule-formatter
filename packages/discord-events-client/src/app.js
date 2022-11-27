@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
 import { GatewayIntentBits } from "discord-api-types/v10";
 
-import { deleteEvent, insertEvent, updateEvent, upsertGuildEvents }
+import { deleteEvent, deleteGuildEvents, insertEvent, updateEvent, upsertGuildEvents }
     from "./services/guildEventService.js";
 
 // Connect to database
@@ -64,6 +64,26 @@ client.on("guildScheduledEventDelete", async guildEvent => {
         console.log(`Event deleted: ${guildEvent.name} (${guildEvent.guild.name})`);
     } catch (error) {
         console.error(`Failed to delete event ${guildEvent.name}:`, error);
+    }
+});
+
+client.on("guildCreate", async guild => {
+    // TODO: Extract common logic
+    try {
+        const resultsArray = await upsertGuildEvents(guild);
+
+        console.log(`Joined ${guild} and loaded ${resultsArray.length} event(s)`);
+    } catch (error) {
+        console.error(`Could not upsert events for ${guild}:`, error);
+    }
+});
+
+client.on("guildDelete", async guild => {
+    try {
+        const numEventsDeleted = await deleteGuildEvents(guild);
+        console.log(`Guild deleted: ${guild.name} (${numEventsDeleted} events deleted)`);
+    } catch (error) {
+        console.error(`Failed to delete events from guild ${guild.name}:`, error);
     }
 });
 

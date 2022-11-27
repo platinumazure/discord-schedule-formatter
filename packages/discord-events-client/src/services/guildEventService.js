@@ -38,3 +38,7 @@ export async function updateEvent(guildEvent) {
 export async function deleteEvent(guildEvent) {
     return ScheduledEvent.destroy({ where: { id: guildEvent.id } });
 }
+
+export async function deleteGuildEvents(guild) {
+    return ScheduledEvent.destroy({ where: { guildId: guild.id } });
+}
