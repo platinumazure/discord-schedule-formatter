@@ -1,7 +1,8 @@
 import { Client } from "discord.js";
 import { GatewayIntentBits } from "discord-api-types/v10";
 
-import { upsertGuildEvents } from "./services/guildEventService.js";
+import { deleteEvent, insertEvent, updateEvent, upsertGuildEvents }
+    from "./services/guildEventService.js";
 
 // Connect to database
 import { sequelize } from "./util/dbConnection.js";
@@ -37,6 +38,33 @@ client.on("ready", async () => {
             });
         })
         .catch(err => console.log(`Could not retrieve guilds: ${err}`));
+});
+
+client.on("guildScheduledEventCreate", async guildEvent => {
+    try {
+        await insertEvent(guildEvent);
+        console.log(`New event inserted: ${guildEvent.name} (${guildEvent.guild.name})`);
+    } catch (error) {
+        console.error(`Failed to insert new event ${guildEvent.name}:`, error);
+    }
+});
+
+client.on("guildScheduledEventUpdate", async guildEvent => {
+    try {
+        await updateEvent(guildEvent);
+        console.log(`Event updated: ${guildEvent.name} (${guildEvent.guild.name})`);
+    } catch (error) {
+        console.error(`Failed to update event ${guildEvent.name}:`, error);
+    }
+});
+
+client.on("guildScheduledEventDelete", async guildEvent => {
+    try {
+        await deleteEvent(guildEvent);
+        console.log(`Event deleted: ${guildEvent.name} (${guildEvent.guild.name})`);
+    } catch (error) {
+        console.error(`Failed to delete event ${guildEvent.name}:`, error);
+    }
 });
 
 client.login(); // Uses process.env.DISCORD_TOKEN

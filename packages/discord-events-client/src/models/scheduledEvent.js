@@ -29,7 +29,7 @@ ScheduledEvent.init({
 
     scheduledEndAt: DataTypes.DATE,
 
-    eventUrl: {
+    url: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {

@@ -1,12 +1,40 @@
 import { ScheduledEvent } from "../models/scheduledEvent.js";
 
+// Workaround for sequelize limitation around class instances
+// https://github.com/sequelize/sequelize/issues/15337
+function toPlainObject(djsEvent) {
+    return Object.keys(ScheduledEvent.getAttributes()).reduce(
+        (obj, key) => {
+            if (key in djsEvent) {
+                obj[key] = djsEvent[key];
+            }
+            return obj;
+        },
+        {}
+    );
+}
+
 export async function upsertGuildEvents(guild) {
     const hydratedGuild = await guild.fetch();
     const events = await hydratedGuild.scheduledEvents.fetch();
 
-    // TODO: Open issue with sequelize about url non-enumerable
-    return Promise.all(events.map(guildEvent => ScheduledEvent.upsert({
-        ...guildEvent,
-        eventUrl: guildEvent.url
-    })));
+    return Promise.all(
+        events.map(
+            guildEvent => ScheduledEvent.upsert(toPlainObject(guildEvent))
+        )
+    );
+}
+
+export async function insertEvent(guildEvent) {
+    return ScheduledEvent.create(toPlainObject(guildEvent));
+}
+
+export async function updateEvent(guildEvent) {
+    return ScheduledEvent.update(toPlainObject(guildEvent), {
+        where: { id: guildEvent.id }
+    });
+}
+
+export async function deleteEvent(guildEvent) {
+    return ScheduledEvent.destroy({ where: { id: guildEvent.id } });
 }
