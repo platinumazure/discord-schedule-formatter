@@ -13,19 +13,24 @@ export class DsfClient extends Client {
         this.on(Events.ClientReady, async () => {
             console.log(`Logged in as ${this.user.tag}`);
 
-            this.guilds.fetch()
-                .then(guilds => {
-                    guilds.forEach(async guild => {
-                        try {
-                            const resultsArray = await upsertGuildEvents(guild);
+            let guilds;
+            try {
+                guilds = await this.guilds.fetch();
+            }
+            catch (err) {
+                console.log(`Could not retrieve guilds: ${err}`);
+                return;
+            }
 
-                            console.log(`${guild}: Successfully loaded ${resultsArray.length} event(s)`);
-                        } catch (error) {
-                            console.error(`Could not upsert events for ${guild}:`, error);
-                        }
-                    });
-                })
-                .catch(err => console.log(`Could not retrieve guilds: ${err}`));
+            guilds.forEach(async guild => {
+                try {
+                    const resultsArray = await upsertGuildEvents(guild);
+
+                    console.log(`${guild}: Successfully loaded ${resultsArray.length} event(s)`);
+                } catch (error) {
+                    console.error(`Could not upsert events for ${guild}:`, error);
+                }
+            });
         });
 
         this.on(Events.GuildScheduledEventCreate, async guildEvent => {
