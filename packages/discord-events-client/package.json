@@ -3,18 +3,24 @@
   "version": "0.1.0",
   "description": "Node API for retrieving Discord events from a guild",
   "main": "index.js",
+  "files": [
+    "src/**"
+  ],
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "eslint": "^8.15.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
-    "mocha": "^10.1.0"
+    "mocha": "^10.1.0",
+    "sequelize-mock": "^0.10.2",
+    "sinon": "^15.0.0"
   },
   "scripts": {
     "lint": "eslint .",
     "start": "node --require dotenv/config src/app.js",
-    "test": "npm run lint",
-    "unit-test": "mocha"
+    "test": "npm run lint && npm run unit-test",
+    "unit-test": "cross-env NODE_ENV=test mocha"
   },
   "keywords": [
     "discord",
@@ -27,6 +33,12 @@
     "discord.js": "^14.6.0",
     "sequelize": "^6.25.8",
     "sqlite3": "^5.1.2"
+  },
+  "engines": {
+    "node": ">=18.12.1"
+  },
+  "mocha": {
+    "spec": "test/**/*.js"
   },
   "type": "module"
 }

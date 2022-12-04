@@ -3,15 +3,21 @@ import { ScheduledEvent } from "../models/scheduledEvent.js";
 // Workaround for sequelize limitation around class instances
 // https://github.com/sequelize/sequelize/issues/15337
 function toPlainObject(djsEvent) {
-    return Object.keys(ScheduledEvent.getAttributes()).reduce(
-        (obj, key) => {
-            if (key in djsEvent) {
-                obj[key] = djsEvent[key];
-            }
-            return obj;
-        },
-        {}
-    );
+    const attrs = ScheduledEvent.getAttributes();
+
+    if (attrs) {
+        return Object.keys(ScheduledEvent.getAttributes()).reduce(
+            (obj, key) => {
+                if (key in djsEvent) {
+                    obj[key] = djsEvent[key];
+                }
+                return obj;
+            },
+            {}
+        );
+    } else {
+        return djsEvent;
+    }
 }
 
 export async function upsertGuildEvents(guild) {

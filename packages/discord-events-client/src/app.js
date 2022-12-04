@@ -1,9 +1,11 @@
 import { DsfClient } from "./discordClient.js";
 
 // Connect to database
-import { sequelize } from "./util/dbConnection.js";
+import { getDBConnection } from "./util/dbConnection.js";
 
 (async () => {
+    const sequelize = await getDBConnection();
+
     try {
         await sequelize.authenticate();
         console.log("Connected successfully to the database.");
