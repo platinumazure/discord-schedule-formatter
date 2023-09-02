@@ -16,9 +16,9 @@
   "license": "MIT",
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.28.0",
+    "eslint": "^8.48.0",
     "husky": "^8.0.0",
-    "mocha": "^10.1.0"
+    "mocha": "^10.2.0"
   },
   "config": {
     "commitizen": {
@@ -30,6 +30,6 @@
   ],
   "type": "module",
   "engines": {
-      "node": ">=18"
+    "node": ">=18"
   }
 }
