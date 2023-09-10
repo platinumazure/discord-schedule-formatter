@@ -7,6 +7,8 @@
     "src/**"
   ],
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "eslint": "^8.48.0",
@@ -14,11 +16,12 @@
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.2.0",
     "sequelize-mock": "^0.10.2",
-    "sinon": "^15.2.0"
+    "sinon": "^15.2.0",
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "lint": "eslint .",
-    "start": "node --require dotenv/config src/app.js",
+    "start": "node --require dotenv/config built/app.js",
     "test": "npm run lint && npm run unit-test",
     "unit-test": "cross-env NODE_ENV=test mocha"
   },

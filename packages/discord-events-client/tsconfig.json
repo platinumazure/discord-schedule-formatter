@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"outDir": "./built",
+		"allowJs": true,
+		"target": "es2021",
+		"skipLibCheck": true
+	},
+	"include": ["./src/**/*"]
+}

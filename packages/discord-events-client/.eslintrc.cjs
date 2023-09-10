@@ -3,6 +3,7 @@ module.exports = {
         "node": true,
         "es2021": true
     },
+    "root": true,
     "extends": [
         "eslint:recommended",
         "plugin:node/recommended",
@@ -28,5 +29,21 @@ module.exports = {
     },
     "settings": {
         "import/resolver": "node"
-    }
+    },
+    "overrides": [
+        {
+            "files": ["**/*.ts"],
+            "parser": "@typescript-eslint/parser",
+            "parserOptions": {
+                project: true,
+                tsconfigRootDir: __dirname
+            },
+            "extends": [
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended-type-checked",
+                "plugin:node/recommended",
+                "plugin:import/recommended"
+            ]
+        }
+    ]
 };
