@@ -1,6 +1,4 @@
-import assert from "node:assert";
 import { Guild, GuildScheduledEvent, Collection } from "discord.js";
-import { restore, stub } from "sinon";
 
 import { ScheduledEvent } from "../../src/models/scheduledEvent.js";
 import { deleteEvent, deleteGuildEvents, insertEvent, updateEvent, upsertGuildEvents }
@@ -18,13 +16,9 @@ function createFakeClient() {
 }
 
 describe("GuildEventService", function () {
-    afterEach(function () {
-        restore();
-    });
-
     describe("insertEvent", function () {
         beforeEach(function () {
-            stub(ScheduledEvent, "create").resolves();
+            spyOn(ScheduledEvent, "create").and.resolveTo();
         });
 
         it("should call event create", async function () {
@@ -32,14 +26,14 @@ describe("GuildEventService", function () {
 
             await insertEvent(scheduledEvent);
 
-            assert.strictEqual(ScheduledEvent.create.calledOnce, true);
-            assert.strictEqual(ScheduledEvent.create.calledWithMatch(scheduledEvent), true);
+            expect(ScheduledEvent.create).toHaveBeenCalled();
+            expect(ScheduledEvent.create).toHaveBeenCalledOnceWith(scheduledEvent);
         });
     });
 
     describe("updateEvent", function () {
         beforeEach(function () {
-            stub(ScheduledEvent, "update").resolves();
+            spyOn(ScheduledEvent, "update").and.resolveTo();
         });
 
         it("should call event update", async function () {
@@ -47,17 +41,17 @@ describe("GuildEventService", function () {
 
             await updateEvent(scheduledEvent);
 
-            assert.strictEqual(ScheduledEvent.update.calledOnce, true);
-            assert.strictEqual(
-                ScheduledEvent.update.calledWithMatch(scheduledEvent, { where: { id: 1 } }),
-                true
+            expect(ScheduledEvent.update).toHaveBeenCalled();
+            expect(ScheduledEvent.update).toHaveBeenCalledOnceWith(
+                scheduledEvent,
+                jasmine.objectContaining({ where: { id: 1 } })
             );
         });
     });
 
     describe("deleteEvent", function () {
         beforeEach(function () {
-            stub(ScheduledEvent, "destroy").resolves();
+            spyOn(ScheduledEvent, "destroy").and.resolveTo();
         });
 
         it("should call event destroy", async function () {
@@ -65,17 +59,16 @@ describe("GuildEventService", function () {
 
             await deleteEvent(scheduledEvent);
 
-            assert.strictEqual(ScheduledEvent.destroy.calledOnce, true);
-            assert.strictEqual(
-                ScheduledEvent.destroy.calledWithMatch({ where: { id: 1 } }),
-                true
+            expect(ScheduledEvent.destroy).toHaveBeenCalled();
+            expect(ScheduledEvent.destroy).toHaveBeenCalledOnceWith(
+                jasmine.objectContaining({ where: { id: 1 } })
             );
         });
     });
 
     describe("deleteGuildEvents", function () {
         beforeEach(function () {
-            stub(ScheduledEvent, "destroy").resolves();
+            spyOn(ScheduledEvent, "destroy").and.resolveTo();
         });
 
         it("should call event destroy with guildId", async function () {
@@ -83,17 +76,16 @@ describe("GuildEventService", function () {
 
             await deleteGuildEvents(guild);
 
-            assert.strictEqual(ScheduledEvent.destroy.calledOnce, true);
-            assert.strictEqual(
-                ScheduledEvent.destroy.calledWithMatch({ where: { guildId: 1 } }),
-                true
+            expect(ScheduledEvent.destroy).toHaveBeenCalled();
+            expect(ScheduledEvent.destroy).toHaveBeenCalledOnceWith(
+                jasmine.objectContaining({ where: { guildId: 1 } })
             );
         });
     });
 
     describe("upsertGuildEvents", function () {
         beforeEach(function () {
-            stub(ScheduledEvent, "upsert").resolves();
+            spyOn(ScheduledEvent, "upsert").and.resolveTo();
         });
 
         it("should call event upsert with guildId", async function () {
@@ -104,24 +96,18 @@ describe("GuildEventService", function () {
             ];
 
             const guild = new Guild(createFakeClient(), { id: 1 });
-            stub(guild, "fetch").resolves(guild);
-            stub(guild.scheduledEvents, "fetch").resolves(events);
+            spyOn(guild, "fetch").and.resolveTo(guild);
+            spyOn(guild.scheduledEvents, "fetch").and.resolveTo(events);
 
             await upsertGuildEvents(guild);
 
-            assert.strictEqual(ScheduledEvent.upsert.calledThrice, true);
-            assert.strictEqual(
-                ScheduledEvent.upsert.calledWithMatch({ id: 1 }),
-                true
-            );
-            assert.strictEqual(
-                ScheduledEvent.upsert.calledWithMatch({ id: 2 }),
-                true
-            );
-            assert.strictEqual(
-                ScheduledEvent.upsert.calledWithMatch({ id: 3 }),
-                true
-            );
+            expect(ScheduledEvent.upsert).toHaveBeenCalledTimes(3);
+            expect(ScheduledEvent.upsert.calls.argsFor(0))
+                .toEqual([{ id: 1 }]);
+            expect(ScheduledEvent.upsert.calls.argsFor(1))
+                .toEqual([{ id: 2 }]);
+            expect(ScheduledEvent.upsert.calls.argsFor(2))
+                .toEqual([{ id: 3 }]);
         });
     });
 });
