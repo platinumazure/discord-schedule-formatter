@@ -14,7 +14,7 @@
     "eslint": "^8.48.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-node": "^11.1.0",
-    "mocha": "^10.2.0",
+    "jasmine": "^5.1.0",
     "sequelize-mock": "^0.10.2",
     "sinon": "^15.2.0",
     "typescript": "^5.2.2"
@@ -23,7 +23,7 @@
     "lint": "eslint .",
     "start": "node --require dotenv/config built/app.js",
     "test": "npm run lint && npm run unit-test",
-    "unit-test": "cross-env NODE_ENV=test mocha"
+    "unit-test": "cross-env NODE_ENV=test jasmine"
   },
   "keywords": [
     "discord",

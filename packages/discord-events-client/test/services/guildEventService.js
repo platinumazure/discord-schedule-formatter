@@ -1,5 +1,4 @@
 import assert from "node:assert";
-import { afterEach, beforeEach, describe, it } from "mocha";
 import { Guild, GuildScheduledEvent, Collection } from "discord.js";
 import { restore, stub } from "sinon";
 
